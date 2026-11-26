@@ -45,7 +45,7 @@ class _AuCharityAppState extends State<AuCharityApp> {
         foregroundColor: Color(0xFF163D32),
         centerTitle: false,
       ),
-      cardTheme: CardTheme(
+    cardTheme: CardThemeData(
         elevation: 0,
         color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
