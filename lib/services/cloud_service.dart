@@ -21,22 +21,19 @@ class CloudService {
     await client.auth.signInWithPassword(email: email.trim(), password: password);
   }
 
-  Future<void> signOut() async {
-    if (isConfigured) await client.auth.signOut();
-  }
+ Future<List<CharityProject>> publishedProjects() async {
+  if (!isConfigured) return [];
 
-  Future<List<CharityProject>> publishedProjects() async {
-    if (!isConfigured) return [];
-    final rows = await client.from('charity_projects')
-        .select('id,title_uz,title_ru,title_en,description_uz,description_ru,description_en,target_amount,category')
-        .eq('is_public', true).eq('status', 'active')
-        .order('created_at', ascending: false);
-    final totals = await client.from('public_project_totals').select('project_id,total_raised');
-    final raisedByProject = <String, int>{};
-    for (final item in totals as List) {
-      raisedByProject[item['project_id'].toString()] = (item['total_raised'] as num?)?.toInt() ?? 0;
-    }
-    return (rows as List).map((row) {
+  final rows = await client
+      .from('charity_projects')
+      .select('id,title,description,category,goal_amount');
+
+  return (rows as List).map((row) {
+    return CharityProject.fromCloud(
+      Map<String, dynamic>.from(row),
+    );
+  }).toList();
+}
       final map = Map<String, dynamic>.from(row);
       return CharityProject.fromCloud(map, raised: raisedByProject[map['id'].toString()] ?? 0);
     }).toList();
@@ -79,7 +76,7 @@ class CloudService {
     if (!isConfigured || currentUser == null) return [];
     final rows = await client.from('donations')
         .select('id,amount,currency,status,created_at,project_id,payment_provider')
-        .eq('donor_user_id', currentUser!.id)
+       .eq('donor_id', currentUser!.id)
         .order('created_at', ascending: false);
     return List<Map<String, dynamic>>.from(rows);
   }
