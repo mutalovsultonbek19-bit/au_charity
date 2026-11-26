@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _tab = 0;
-  List<CharityProject> _projects = demoProjects;
+  List<CharityProject> _projectItems = demoProjects;
   bool _loadingProjects = false;
   String? _projectError;
   String get lang => widget.locale.languageCode;
@@ -28,12 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() { super.initState(); _loadProjects(); }
 
   Future<void> _loadProjects() async {
-    if (!AppConfig.hasSupabase) { setState(() { _projects = demoProjects; _projectError = null; }); return; }
+    if (!AppConfig.hasSupabase) { setState(() { _projectItems = demoProjects; _projectError = null; }); return; }
     setState(() { _loadingProjects = true; _projectError = null; });
     try {
       final data = await CloudService.instance.publishedProjects();
       if (!mounted) return;
-      setState(() => _projects = data);
+     setState(() => _projectItems = data);
     } catch (e) {
       if (!mounted) return;
       setState(() => _projectError = 'Loyihalarni yuklashda xatolik: $e');
@@ -92,16 +92,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       const SizedBox(height: 16),
       Row(children: [
-        Expanded(child: _stat(Strings.t(lang, 'raised'), _money(_projects.fold<int>(0, (sum, p) => sum + p.raised)), Icons.volunteer_activism)),
+        Expanded(child: _stat(Strings.t(lang, 'raised'), _money(_projectItems.fold<int>(0, (sum, p) => sum + p.raised)), Icons.volunteer_activism)),
         const SizedBox(width: 10),
-        Expanded(child: _stat(Strings.t(lang, 'projects'), _projects.length.toString(), Icons.folder_open)),
+        Expanded(child: _stat(Strings.t(lang, 'projects'), _projectItems.length.toString(), Icons.folder_open)),
       ]),
       const SizedBox(height: 22),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(Strings.t(lang, 'featured'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         TextButton(onPressed: () => setState(() => _tab = 1), child: Text(Strings.t(lang, 'see_all'))),
       ]),
-      _projectList(_projects.take(3).toList()),
+      _projectList(_projectItems.take(3).toList()),
     ],
   );
 
@@ -111,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Text(Strings.t(lang, 'featured'), style: const TextStyle(fontSize: 21, fontWeight: FontWeight.bold)),
       const SizedBox(height: 12),
       Row(mainAxisAlignment: MainAxisAlignment.end, children: [IconButton(onPressed: _loadProjects, icon: const Icon(Icons.refresh), tooltip: 'Yangilash')]),
-      _projectList(_projects),
+      _projectList(_projectItems),
     ],
   );
 
