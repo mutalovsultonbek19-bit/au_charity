@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-            - name: Build APK
+                 - name: Build APK
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
