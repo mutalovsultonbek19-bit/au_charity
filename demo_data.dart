@@ -1,0 +1,40 @@
+import '../models/charity_project.dart';
+
+const demoProjects = <CharityProject>[
+  CharityProject(
+    id: 'student-support',
+    titleUz: 'Talabaga ko‘mak',
+    titleRu: 'Поддержка студентов',
+    titleEn: 'Student support',
+    descriptionUz: 'Ijtimoiy himoyaga muhtoj talabalarni ta’lim xarajatlarida qo‘llab-quvvatlash.',
+    descriptionRu: 'Помощь студентам, нуждающимся в поддержке для продолжения обучения.',
+    descriptionEn: 'Supporting students who need assistance with education-related expenses.',
+    goal: 30000000,
+    raised: 12400000,
+    category: 'education',
+  ),
+  CharityProject(
+    id: 'family-care',
+    titleUz: 'Bir oilaga yordam',
+    titleRu: 'Помощь семье',
+    titleEn: 'Help a family',
+    descriptionUz: 'Og‘ir ijtimoiy vaziyatga tushgan oilalarga manzilli yordam.',
+    descriptionRu: 'Адресная помощь семьям в трудной жизненной ситуации.',
+    descriptionEn: 'Targeted assistance to families facing difficult circumstances.',
+    goal: 20000000,
+    raised: 8600000,
+    category: 'social',
+  ),
+  CharityProject(
+    id: 'young-researchers',
+    titleUz: 'Yosh olimlar',
+    titleRu: 'Молодые учёные',
+    titleEn: 'Young researchers',
+    descriptionUz: 'Talabalar va yosh tadqiqotchilarning ilmiy tashabbuslarini qo‘llab-quvvatlash.',
+    descriptionRu: 'Поддержка научных инициатив студентов и молодых исследователей.',
+    descriptionEn: 'Supporting research initiatives by students and early-career researchers.',
+    goal: 15000000,
+    raised: 5200000,
+    category: 'science',
+  ),
+];
